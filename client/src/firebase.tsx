@@ -4,7 +4,7 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBbrQhg2CkPSyiyPikqL2m9wT9V1cDRsGc',
+  apiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
   authDomain: 'beach-party-cleanup.firebaseapp.com',
   projectId: 'beach-party-cleanup',
   storageBucket: 'beach-party-cleanup.appspot.com',
