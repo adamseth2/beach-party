@@ -1,9 +1,10 @@
 import { Backdrop, Button, CircularProgress } from '@mui/material';
 import React from 'react';
-import { useLoading } from '../context/LoadingContext';
+import { useFeedback } from '../context/FeedbackContext';
 
 function Loading() {
-  const { isLoading, setIsLoading } = useLoading();
+  const { isLoading, setIsLoading } = useFeedback();
+
   return (
     <>
       <Backdrop

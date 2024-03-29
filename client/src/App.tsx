@@ -13,9 +13,10 @@ import { AuthContextProvider } from './context/AuthContext';
 import LogIn from './routes/LogIn';
 import { CreateEvent } from './routes/CreateEvent';
 import EventPage from './routes/EventPage';
-import { LoadingContextProvider } from './context/LoadingContext';
+import { FeedBackContextProvider } from './context/FeedbackContext';
 import { LoadScript } from '@react-google-maps/api';
 import { APIProvider } from '@vis.gl/react-google-maps';
+import StatusPopUp from './components/StatusPopUp';
 
 declare module '@mui/material' {
   interface ButtonPropsColorOverrides {
@@ -103,15 +104,16 @@ function App() {
   return (
     <>
       <AuthContextProvider>
-        <LoadingContextProvider>
+        <FeedBackContextProvider>
           <ThemeProvider theme={theme}>
             <Navbar />
+            <StatusPopUp />
             {/* @ts-ignore */}
             <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
               <RouterProvider router={router} />
             </APIProvider>
           </ThemeProvider>
-        </LoadingContextProvider>
+        </FeedBackContextProvider>
       </AuthContextProvider>
     </>
   );

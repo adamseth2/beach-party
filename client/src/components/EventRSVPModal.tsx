@@ -16,7 +16,7 @@ import { UserAuth } from '../context/AuthContext';
 import axios, { AxiosError } from 'axios';
 import { useParams } from 'react-router';
 import { GMLocation, axiosError } from '../types';
-import { useLoading } from '../context/LoadingContext';
+import { useFeedback } from '../context/FeedbackContext';
 import Loading from './Loading';
 
 type props = {
@@ -29,11 +29,13 @@ type props = {
 function EventRSVPModal({ title, startDate, endDate, location }: props) {
   const { user } = UserAuth();
   const { eventUuid } = useParams();
-  const { setIsLoading } = useLoading();
+  const { setIsLoading, setStatus, setStatusMessage } = useFeedback();
   const rsvpHandler = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     setIsLoading(true);
+    let feedbackMessage = 'Successfully RSVP';
+    let feedbackStatus = 'success';
     try {
       console.log('GOT POSTED??');
       const postData = {
@@ -46,12 +48,24 @@ function EventRSVPModal({ title, startDate, endDate, location }: props) {
       console.log('GOT POSTED');
     } catch (err: any) {
       const axiosErr = err.response as axiosError;
-      if ((axiosErr.data.code = 'ER_DUP_ENTRY')) {
-        console.log('dupplicated error');
+      if (axiosErr.data.code === 'ER_DUP_ENTRY') {
+        console.log('duplicated error');
+        feedbackStatus = 'info';
+        feedbackMessage = 'You already RSVP for this Event';
+      } else {
+        feedbackStatus = 'error';
+        feedbackMessage =
+          'There was an error while RSVP. Please try again later.';
       }
       console.log(err);
     } finally {
-      setTimeout(() => setIsLoading(false), 1000);
+      setTimeout(() => {
+        setIsLoading(false);
+        setStatus(feedbackStatus);
+        setStatusMessage(feedbackMessage);
+      }, 1000);
+
+      // console.log('existing out of finally');
     }
   };
   const convertUnixFormatTime = (unix: number) => {
