@@ -28,10 +28,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/events', async (req, res) => {
-  const events = await getAllEvents();
-  console.log('passed here');
-  res.send(events);
-
+  try {
+    const events = await getAllEvents();
+    console.log('passed here');
+    res.send(events);
+  } catch (e) {
+    console.log(e);
+    res.status(400).send(e);
+  }
   // const q = 'SELECT * FROM event';
   // db.query(q, (err, data) => {
   //   if (err) {

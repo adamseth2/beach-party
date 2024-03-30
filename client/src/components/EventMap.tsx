@@ -1,8 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { event, fetchEvent } from '../types';
 import EventMarker from './EventMarker';
 import test from '../assets/Picture1.png';
-import { Map } from '@vis.gl/react-google-maps';
+import { Map, useMap } from '@vis.gl/react-google-maps';
+import { MarkerClusterer, type Marker } from '@googlemaps/markerclusterer';
+
 type Props = {
   eventArr: fetchEvent[] | null;
   focusedEvent: number | null;
@@ -26,6 +28,43 @@ const options: MapOptions = {
   mapId: process.env.REACT_APP_GOOGLE_MAP_ID,
 };
 function EventMap({ eventArr, focusedEvent, setFocusedEvent }: Props) {
+  const map = useMap();
+  const [isClicked, setIsClicked] = useState(false);
+  const [counter, setCounter] = useState(0);
+  const [markers, setMarkers] = useState<{ [key: number]: Marker }>({});
+  const clusterer = useRef<MarkerClusterer | null>(null);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+    if (!clusterer.current) {
+      clusterer.current = new MarkerClusterer({ map });
+    }
+  }, [map]);
+  useEffect(() => {
+    console.log(Date.now());
+    clusterer.current?.clearMarkers();
+    clusterer.current?.addMarkers(Object.values(markers));
+  }, [markers]);
+  function setMarkerRef(marker: Marker | null, key: number) {
+    if (marker && markers[key]) {
+      return;
+    }
+    if (!marker && !markers[key]) {
+      return;
+    }
+
+    setMarkers(prev => {
+      if (marker) {
+        return { ...prev, [key]: marker };
+      }
+      const newMarkers = { ...prev };
+      delete newMarkers[key];
+      return newMarkers;
+    });
+  }
+  console.log(markers);
   function markerClickHandler(index: number) {
     if (!eventArr) {
       return;
@@ -53,6 +92,7 @@ function EventMap({ eventArr, focusedEvent, setFocusedEvent }: Props) {
               markerClickHandler={markerClickHandler}
               setFocusedEvent={setFocusedEvent}
               focusedEvent={focusedEvent}
+              setMarkerRef={setMarkerRef}
             />
           ))}
       </Map>

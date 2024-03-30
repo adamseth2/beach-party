@@ -108,9 +108,12 @@ function App() {
           <ThemeProvider theme={theme}>
             <Navbar />
             <StatusPopUp />
+
             {/* @ts-ignore */}
             <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
-              <RouterProvider router={router} />
+              <div>
+                <RouterProvider router={router} />
+              </div>
             </APIProvider>
           </ThemeProvider>
         </FeedBackContextProvider>

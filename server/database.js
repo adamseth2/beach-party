@@ -33,11 +33,14 @@ export async function getAllEvents() {
 }
 export async function getEvent(uuid) {
   let event = await getEventHelper(uuid);
-  event = event[0];
-  event.volunteers = await getVolunteers(event.id);
+  if (!event) {
+    return null;
+  }
+  const currEvent = event[0];
+  currEvent.volunteers = await getVolunteers(currEvent.id);
   //returning event so deleting ID so the user does not have access
-  delete event.id;
-  return event;
+  delete currEvent.id;
+  return currEvent;
 }
 
 async function getEventHelper(uuid) {

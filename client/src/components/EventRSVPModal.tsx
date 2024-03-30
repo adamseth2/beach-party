@@ -18,6 +18,7 @@ import { useParams } from 'react-router';
 import { GMLocation, axiosError } from '../types';
 import { useFeedback } from '../context/FeedbackContext';
 import Loading from './Loading';
+import { feedbackNotLoggedInStatus } from '../helperMethods';
 
 type props = {
   title: string;
@@ -34,6 +35,13 @@ function EventRSVPModal({ title, startDate, endDate, location }: props) {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     setIsLoading(true);
+    if (!user) {
+      setTimeout(() => {
+        setIsLoading(false);
+        feedbackNotLoggedInStatus(setStatus, setStatusMessage);
+      }, 1000);
+      return;
+    }
     let feedbackMessage = 'Successfully RSVP';
     let feedbackStatus = 'success';
     try {

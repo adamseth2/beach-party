@@ -8,6 +8,7 @@ import { useParams } from 'react-router';
 const useFetchURLEvent = () => {
   const { eventUuid } = useParams();
   const [event, setEvent] = useState<fetchEvent | null>(null);
+  const [error, setError] = useState<any>(null);
   const [organizer, setOrganizer] = useState<eventUser | null>(null);
   console.log(event);
   useEffect(() => {
@@ -29,11 +30,12 @@ const useFetchURLEvent = () => {
           }
         });
       } catch (e) {
+        setError(e);
         console.error(e);
       }
     }
     fetchEventData();
   }, [eventUuid]);
-  return { event, organizer };
+  return { event, organizer, error };
 };
 export default useFetchURLEvent;

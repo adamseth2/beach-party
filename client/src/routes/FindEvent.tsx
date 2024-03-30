@@ -51,11 +51,20 @@ export default function FindEvent(props: Props) {
 
   return (
     <Box>
-      <br></br>
-      <br></br>
       {eventArr && focusedEvent && (
         <Drawer
-          // sx={{ width: { sm: '240px' }, flexShrink: { sm: 0 }, zIndex: '3' }}
+          style={{
+            width: '300px',
+          }}
+          sx={
+            {
+              // maxWidth: '400px',
+              // width: { sm: '240px' },
+              // maxWidth: { sm: '400px' },
+              // flexShrink: { sm: 0 },
+              // zIndex: '3',
+            }
+          }
           //@ts-ignore
           // style={{
           //   inset: 'unset !important',
@@ -73,6 +82,11 @@ export default function FindEvent(props: Props) {
             alt=''
             style={{ width: '400px' }}
           />
+          <Typography variant='h5'>{eventArr[focusedEvent].title}</Typography>
+          <br />
+          <Typography variant='body1' style={{ width: '400px' }}>
+            {eventArr[focusedEvent].details.substring(0, 500)}...
+          </Typography>
           <Button
             href={`/event/${eventArr[focusedEvent].uuid}`}
             variant='contained'>

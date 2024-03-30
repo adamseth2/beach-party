@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
                 </Button>
               </>
             ) : (
-              <Button href='log-in' variant='contained' color='secondary'>
+              <Button href='/log-in' variant='contained' color='secondary'>
                 Log In
               </Button>
             )}

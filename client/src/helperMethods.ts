@@ -13,3 +13,10 @@ type formLocation = Omit<GMLocation, 'placeId' | 'longitude' | 'latitude'>;
 export function formatLocation(location: GMLocation | formLocation): string {
   return location.mainName + ' ' + location.secondaryName;
 }
+export function feedbackNotLoggedInStatus(
+  setStatus: (status: string) => void,
+  setStatusMessage: (statusMessage: string) => void
+) {
+  setStatus('error');
+  setStatusMessage('Please log in first');
+}
