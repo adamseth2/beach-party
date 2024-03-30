@@ -44,17 +44,17 @@ export default function FindEvent(props: Props) {
   const { eventArr, organizerArr } = useFetchEvents();
   const [focusedEvent, setFocusedEvent] = useState<number | null>(null);
 
-  useEffect(() => {
-    console.log('In use Event useEffect:');
-    console.log(eventArr);
-  }, [eventArr]);
+  // useEffect(() => {
+  //   console.log('In use Event useEffect:');
+  //   console.log(eventArr);
+  // }, [eventArr]);
 
   return (
     <Box>
       {eventArr && focusedEvent && (
         <Drawer
           style={{
-            width: '300px',
+            maxWidth: '300px',
           }}
           sx={
             {

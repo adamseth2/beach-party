@@ -56,6 +56,10 @@ const theme = createTheme({
     h4: {
       fontFamily: 'Lora',
     },
+    h5: {
+      fontFamily: 'Lora',
+      weight: 'bold',
+    },
   },
   palette: {
     primary: {
@@ -108,7 +112,6 @@ function App() {
           <ThemeProvider theme={theme}>
             <Navbar />
             <StatusPopUp />
-
             {/* @ts-ignore */}
             <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
               <div>

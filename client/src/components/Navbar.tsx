@@ -29,6 +29,7 @@ const Navbar: React.FC = () => {
           background: '#7DAA92',
           position: 'relative',
           zIndex: theme => theme.zIndex.drawer + 1,
+          height: '4rem',
         }}>
         <Toolbar>
           <Button

@@ -34,12 +34,12 @@ function LogIn({}: Props) {
         justifyContent='center'
         // position='absolute'
         sx={{
-          minHeight: '100vh',
+          minHeight: 'calc(100vh - 4rem)',
           // left: '50vw', top: '50%',
         }}>
         <Grid item xs={3}></Grid>
         <Card elevation={4} sx={{ padding: '2rem 4rem 10rem 4rem' }}>
-          <Typography variant='h2'>Sign in to</Typography>
+          <Typography variant='h3'>Sign in to</Typography>
           <Container
             sx={{
               background: '#65A48B',

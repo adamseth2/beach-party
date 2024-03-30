@@ -16,10 +16,10 @@ const center = {
   lat: 47.7511,
   lng: -120.7401,
 };
-
+// let height = 'calc(100vh - 4rem)';
 const containerStyle = {
   width: '100%',
-  height: '80vh',
+  height: 'calc(100vh - 4rem)',
   minHeight: '300px',
 };
 const options: MapOptions = {
