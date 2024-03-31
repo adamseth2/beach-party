@@ -271,7 +271,6 @@ export const CreateEvent = (props: Props) => {
     &q=${location.mainName} ${location.secondaryName}`}></iframe>
               )}
             </Grid>
-
             <Grid item xs={12}>
               <TextField
                 id='details'

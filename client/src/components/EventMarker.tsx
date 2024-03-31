@@ -14,6 +14,7 @@ type props = {
   setFocusedEvent: React.Dispatch<React.SetStateAction<number | null>>;
   focusedEvent: number | null;
   setMarkerRef: (marker: Marker | null, key: number) => void;
+  setCenter: React.Dispatch<React.SetStateAction<google.maps.LatLngLiteral>>;
 };
 type GeoPosition = google.maps.LatLngLiteral;
 
@@ -27,11 +28,12 @@ function EventMarker({
   setFocusedEvent,
   focusedEvent,
   setMarkerRef,
+  setCenter,
 }: props) {
   // const markerRef = useRef(AdvancedMarker);
+  const map = useMap();
   const [isClicked, setIsClicked] = useState(false);
   const [counter, setCounter] = useState(0);
-
   const position: GeoPosition = {
     lat: data.location.latitude,
     lng: data.location.longitude,
@@ -55,6 +57,8 @@ function EventMarker({
           if (focusedEvent === index) {
             return;
           }
+          map?.panTo(position);
+          // setCenter(position);
           setFocusedEvent(index);
           setCounter(curr => curr + 1);
           console.log(counter);

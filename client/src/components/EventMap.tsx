@@ -12,10 +12,7 @@ type Props = {
 };
 type GeoPosition = google.maps.LatLngLiteral;
 type MapOptions = google.maps.MapOptions;
-const center = {
-  lat: 47.7511,
-  lng: -120.7401,
-};
+
 // let height = 'calc(100vh - 4rem)';
 const containerStyle = {
   width: '100%',
@@ -32,6 +29,10 @@ function EventMap({ eventArr, focusedEvent, setFocusedEvent }: Props) {
   const [isClicked, setIsClicked] = useState(false);
   const [counter, setCounter] = useState(0);
   const [markers, setMarkers] = useState<{ [key: number]: Marker }>({});
+  const [center, setCenter] = useState<google.maps.LatLngLiteral>({
+    lat: 47.7511,
+    lng: -120.7401,
+  });
   const clusterer = useRef<MarkerClusterer | null>(null);
 
   useEffect(() => {
@@ -93,6 +94,7 @@ function EventMap({ eventArr, focusedEvent, setFocusedEvent }: Props) {
               setFocusedEvent={setFocusedEvent}
               focusedEvent={focusedEvent}
               setMarkerRef={setMarkerRef}
+              setCenter={setCenter}
             />
           ))}
       </Map>
