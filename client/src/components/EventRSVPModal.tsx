@@ -85,8 +85,12 @@ function EventRSVPModal({ title, startDate, endDate, location }: props) {
       <Loading />
       <Paper
         elevation={2}
-        style={{
-          position: 'fixed',
+        sx={{
+          sm: {
+            maxWidth: 500,
+            width: '30vw',
+            minWidth: 300,
+          },
         }}>
         <List
           sx={{
@@ -125,7 +129,6 @@ function EventRSVPModal({ title, startDate, endDate, location }: props) {
         <iframe
           width='300'
           height='300'
-          // style='border:0'
           scrolling='no'
           style={{
             overflow: 'hidden',

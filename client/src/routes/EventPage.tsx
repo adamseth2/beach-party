@@ -68,7 +68,7 @@ function EventPage() {
           profilePic={organizer.profilePic}
         />
         <Grid container justifyContent='center' spacing={8}>
-          <Grid item xs={6}>
+          <Grid item xs={11} md={6} order={{ xs: 2, md: 1 }}>
             <img
               style={{
                 maxWidth: '100%',
@@ -100,7 +100,7 @@ function EventPage() {
             />
           </Grid>
           {/* RIGHT SIDE */}
-          <Grid item xs={3}>
+          <Grid item xs={11} md={3} order={{ xs: 1, md: 2 }}>
             <EventRSVPModal
               title={event.title}
               startDate={event.startDate}
