@@ -51,6 +51,10 @@ function EventMarker({
         // icon='https://img.icons8.com/ios-filled/40/null/trash-pile.png'
         ref={marker => setMarkerRef(marker, index)}
         onClick={() => {
+          //fixed click same marker twice bug
+          if (focusedEvent === index) {
+            return;
+          }
           setFocusedEvent(index);
           setCounter(curr => curr + 1);
           console.log(counter);
