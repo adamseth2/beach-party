@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -17,6 +17,8 @@ import { FeedBackContextProvider } from './context/FeedbackContext';
 import { LoadScript } from '@react-google-maps/api';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import StatusPopUp from './components/StatusPopUp';
+import { userAuth } from './types';
+import HomePage from './routes/HomePage';
 
 declare module '@mui/material' {
   interface ButtonPropsColorOverrides {
@@ -79,7 +81,7 @@ const theme = createTheme({
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <div>Hello world!</div>,
+    element: <HomePage />,
   },
   {
     path: '/home',
@@ -108,6 +110,8 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const [user, setUser] = useState<userAuth | null>(null);
+
   return (
     <>
       <AuthContextProvider>

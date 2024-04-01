@@ -121,7 +121,7 @@ const Navbar: React.FC = () => {
                       variant='body1'
                       component='h2'
                       sx={{ flexGrow: 1 }}>
-                      {user.displayName.substring(0, 25)}
+                      {user.displayName.substring(0, 20)}
                     </Typography>
                     <Avatar alt={user.displayName} src={user.photoURL} />
                   </>
