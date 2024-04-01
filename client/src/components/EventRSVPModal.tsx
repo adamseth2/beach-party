@@ -89,7 +89,7 @@ function EventRSVPModal({ title, startDate, endDate, location }: props) {
           sm: {
             maxWidth: 500,
             width: '30vw',
-            minWidth: 300,
+            minWidth: '300px',
           },
         }}>
         <List
@@ -97,7 +97,7 @@ function EventRSVPModal({ title, startDate, endDate, location }: props) {
             // width: '50%',
             maxWidth: 500,
             bgcolor: 'background.paper',
-            mr: -4,
+            // mr: -4,
           }}>
           <ListItem>
             <ListItemAvatar>
@@ -127,8 +127,8 @@ function EventRSVPModal({ title, startDate, endDate, location }: props) {
           </ListItem>
         </List>
         <iframe
-          width='300'
-          height='300'
+          width='250'
+          height='250'
           scrolling='no'
           style={{
             overflow: 'hidden',

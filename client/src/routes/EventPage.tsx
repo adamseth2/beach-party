@@ -100,7 +100,7 @@ function EventPage() {
             />
           </Grid>
           {/* RIGHT SIDE */}
-          <Grid item xs={11} md={3} order={{ xs: 1, md: 2 }}>
+          <Grid item xs={11} md={4} lg={3} order={{ xs: 1, md: 2 }}>
             <EventRSVPModal
               title={event.title}
               startDate={event.startDate}

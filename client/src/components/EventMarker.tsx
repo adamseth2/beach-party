@@ -57,8 +57,15 @@ function EventMarker({
           if (focusedEvent === index) {
             return;
           }
-          map?.panTo(position);
-          // setCenter(position);
+          //changes center to be align
+          if (map) {
+            const div = map.getDiv();
+            map.panTo(position);
+            const mdBreakingPoint = 800;
+            if (div.offsetWidth <= mdBreakingPoint) {
+              map.panBy(-(div.offsetWidth / 4), 0);
+            }
+          }
           setFocusedEvent(index);
           setCounter(curr => curr + 1);
           console.log(counter);

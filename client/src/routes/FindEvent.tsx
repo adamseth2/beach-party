@@ -35,7 +35,8 @@ import { convertUnixFormatTime } from '../helperMethods';
 import { AccessTimeOutlined, LocationOnOutlined } from '@mui/icons-material';
 // type Props = {};
 
-const drawerWidth = 400;
+const minDrawerWidth = 280;
+const maxDrawerWidth = 400;
 interface Props {
   // /**
   //  * Injected by the documentation to work in an iframe.
@@ -57,92 +58,124 @@ export default function FindEvent(props: Props) {
   //   console.log(eventArr);
   // }, [eventArr]);
 
-  return (
-    <Box>
-      {eventArr && focusedEvent && (
-        <Drawer
-          // style={{
-          //   maxWidth: '300px',
-          // }}
+  //have to double check because typescript throwing errors; however should always be true
+  const drawerContent =
+    eventArr && focusedEvent ? (
+      <>
+        <Toolbar /> {/*Purpose is to add space*/}
+        <img
+          src={eventArr[focusedEvent].image}
+          style={{
+            width: '400px',
+          }}
+        />
+        <Box
           sx={{
-            display: { xs: 'block' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth,
-            },
-            // maxWidth: 'drawerWidth',
-            width: { sm: '240px' },
-            maxWidth: { sm: 'drawerWidth' },
-            flexShrink: { sm: 0 },
-            zIndex: '3',
-          }}
-          //@ts-ignore
-          // style={{
-          //   inset: 'unset !important',
-          // }}
-          open={true}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          variant='persistent'
-          // BackdropProps={{ invisible: true }}
-        >
-          <Toolbar /> {/*Purpose is to add space*/}
-          <img
-            src={eventArr[focusedEvent].image}
-            style={{ width: 'drawerWidth' }}
-          />
-          <Box
-            sx={{
-              ml: 2,
-              mr: 2,
-            }}>
-            <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
-              {eventArr[focusedEvent].title}
+            ml: 2,
+            mr: 2,
+            // width: '400px',
+          }}>
+          <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+            {eventArr[focusedEvent].title}
+          </Typography>
+          <List>
+            <ListItem sx={{ padding: 0 }}>
+              <ListItemAvatar>
+                <Avatar>
+                  <AccessTimeOutlined />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primaryTypographyProps={{
+                  style: { whiteSpace: 'normal' },
+                }}
+                primary={`${convertUnixFormatTime(
+                  eventArr[focusedEvent].startDate
+                )} to ${convertUnixFormatTime(eventArr[focusedEvent].endDate)}`}
+              />
+            </ListItem>
+            <ListItem sx={{ padding: 0 }}>
+              <ListItemAvatar>
+                <Avatar>
+                  <LocationOnOutlined />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={eventArr[focusedEvent].location.mainName}
+                secondary={eventArr[focusedEvent].location.secondaryName}
+              />
+            </ListItem>
+            <Typography variant='body1' style={{ fontWeight: 'bold' }}>
+              Details
             </Typography>
-            <List>
-              <ListItem sx={{ padding: 0 }}>
-                <ListItemAvatar>
-                  <Avatar>
-                    <AccessTimeOutlined />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primaryTypographyProps={{
-                    style: { whiteSpace: 'normal' },
-                  }}
-                  primary={`${convertUnixFormatTime(
-                    eventArr[focusedEvent].startDate
-                  )} to ${convertUnixFormatTime(
-                    eventArr[focusedEvent].endDate
-                  )}`}
-                />
-              </ListItem>
-              <ListItem sx={{ padding: 0 }}>
-                <ListItemAvatar>
-                  <Avatar>
-                    <LocationOnOutlined />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={eventArr[focusedEvent].location.mainName}
-                  secondary={eventArr[focusedEvent].location.secondaryName}
-                />
-              </ListItem>
-              <Typography variant='body1' style={{ fontWeight: 'bold' }}>
-                Details
-              </Typography>
-              <Typography variant='body2' style={{ width: 'drawerWidth' }}>
-                {eventArr[focusedEvent].details.substring(0, 400)}...
-              </Typography>
-            </List>
-          </Box>
-          <Button
-            href={`/event/${eventArr[focusedEvent].uuid}`}
-            variant='contained'>
-            More information
-          </Button>
-        </Drawer>
+            <Typography variant='body2' style={{ width: 'drawerWidth' }}>
+              {eventArr[focusedEvent].details.substring(0, 400)}...
+            </Typography>
+          </List>
+        </Box>
+        <Button
+          href={`/event/${eventArr[focusedEvent].uuid}`}
+          variant='contained'>
+          More information
+        </Button>
+      </>
+    ) : (
+      <></>
+    );
+  return (
+    <>
+      {eventArr && focusedEvent && (
+        //First is desktop view, second is mobile view
+        <>
+          <Drawer
+            // style={{
+            //   maxWidth: '300px',
+            // }}
+            sx={{
+              display: { xs: 'none', md: 'block' },
+              '& .MuiDrawer-paper': {
+                boxSizing: 'border-box',
+                width: maxDrawerWidth,
+              },
+              // ,
+              // maxWidth: 'drawerWidth',
+              // minWidth: { sm: '100px' },
+              // width: { sm: '20vw' },
+              // maxWidth: { md: 'drawerWidth' },
+              // flexShrink: { sm: 0 },
+              // zIndex: '3',
+            }}
+            anchor='left'
+            //@ts-ignore
+            // style={{
+            //   inset: 'unset !important',
+            // }}
+            open={true}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            variant='persistent'
+            // BackdropProps={{ invisible: true }}
+          >
+            {drawerContent}
+          </Drawer>
+          {/* mobile view */}
+          <Drawer
+            variant='temporary'
+            open={focusedEvent !== null}
+            onClose={() => setFocusedEvent(null)}
+            sx={{
+              display: { xs: 'block', md: 'none' },
+              '& .MuiDrawer-paper': {
+                boxSizing: 'border-box',
+                minWidth: minDrawerWidth,
+                width: '80vw',
+                maxWidth: maxDrawerWidth,
+              },
+            }}>
+            {drawerContent}
+          </Drawer>
+        </>
       )}
       {apiIsLoaded && (
         <EventMap
@@ -151,6 +184,6 @@ export default function FindEvent(props: Props) {
           setFocusedEvent={setFocusedEvent}
         />
       )}
-    </Box>
+    </>
   );
 }
