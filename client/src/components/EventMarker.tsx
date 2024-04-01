@@ -57,7 +57,7 @@ function EventMarker({
           if (focusedEvent === index) {
             return;
           }
-          //changes center to be align
+          //changes center to be align base on screensize
           if (map) {
             const div = map.getDiv();
             map.panTo(position);

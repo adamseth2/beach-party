@@ -45,6 +45,9 @@ declare module '@mui/material/styles' {
 
 const theme = createTheme({
   typography: {
+    h1: {
+      fontFamily: 'Lora',
+    },
     h2: {
       fontFamily: 'Lora',
       // fontFamily: 'Merriweather',

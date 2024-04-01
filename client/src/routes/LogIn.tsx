@@ -52,9 +52,6 @@ function LogIn({}: Props) {
               style={{
                 width: '100%',
                 height: '100%',
-                // margin: '3rem 0',
-                // height: 60,
-                // // width: 200,
               }}
             />
           </Container>

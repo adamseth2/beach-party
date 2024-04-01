@@ -24,6 +24,27 @@ const options: MapOptions = {
   clickableIcons: true,
   mapId: process.env.REACT_APP_GOOGLE_MAP_ID,
 };
+
+// prevents google maps from downloading roboto font causing my fonts to become bold
+//https://stackoverflow.com/questions/25523806/google-maps-v3-prevent-api-from-loading-roboto-font/35993046#35993046
+const head = document.head;
+const insertBefore = head.insertBefore;
+head.insertBefore = <T extends Node>(
+  newElement: T,
+  referenceElement: Node
+): T => {
+  if (
+    newElement instanceof Element &&
+    newElement?.hasAttribute('href') &&
+    newElement?.getAttribute('href')?.includes('fonts.googleapis')
+  ) {
+    return newElement;
+  }
+
+  insertBefore.call(head, newElement, referenceElement);
+  return newElement;
+};
+
 function EventMap({ eventArr, focusedEvent, setFocusedEvent }: Props) {
   const map = useMap();
   const [isClicked, setIsClicked] = useState(false);
