@@ -80,6 +80,9 @@ const theme = createTheme({
 
 const router = createBrowserRouter([
   {
+    element: <Navbar />,
+  },
+  {
     path: '/',
     element: <HomePage />,
   },
