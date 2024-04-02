@@ -22,6 +22,8 @@ import { Link } from 'react-router-dom';
 import { TravelExplore } from '@mui/icons-material';
 const Navbar: React.FC = () => {
   const { user, logOut } = UserAuth();
+
+  console.log(user);
   console.count();
   const [anchorProfileElement, setAnchorProfileElement] =
     React.useState<null | HTMLElement>(null);
@@ -114,7 +116,6 @@ const Navbar: React.FC = () => {
                 {/* <Button variant='contained' onClick={signOutHandler}>
                   Log Out
                 </Button> */}
-
                 <Button onClick={profileMenuHandler} color='inherit'>
                   <>
                     <Typography

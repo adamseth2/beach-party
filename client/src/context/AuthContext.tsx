@@ -13,6 +13,7 @@ const AuthContext = createContext<any>(undefined);
 
 export const AuthContextProvider = ({ children }: any) => {
   const [user, setUser] = useState<userAuth | null>(null);
+  console.log(user);
   const createNewUser = async (userData: user) => {
     try {
       console.log('GOT POSTED??');
@@ -25,6 +26,7 @@ export const AuthContextProvider = ({ children }: any) => {
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider).then((result: any) => {
+      console.log('googleSIgn ');
       let user = result.user;
       let { displayName, photoURL, uid } = user;
       const userData: user = {

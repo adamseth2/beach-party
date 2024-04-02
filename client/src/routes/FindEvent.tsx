@@ -66,7 +66,7 @@ export default function FindEvent(props: Props) {
         <img
           src={eventArr[focusedEvent].image}
           style={{
-            width: '400px',
+            width: '100%',
           }}
         />
         <Box
@@ -146,10 +146,6 @@ export default function FindEvent(props: Props) {
               // zIndex: '3',
             }}
             anchor='left'
-            //@ts-ignore
-            // style={{
-            //   inset: 'unset !important',
-            // }}
             open={true}
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.
