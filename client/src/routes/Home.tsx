@@ -18,6 +18,9 @@ import { UserAuth } from '../context/AuthContext';
 import { title } from 'process';
 import { Button, Grid, Typography } from '@mui/material';
 import mapOfWorld from '../assets/map-design.svg';
+import { redirect } from 'react-router-dom';
+import { red } from '@mui/material/colors';
+import { useNavigate } from 'react-router-dom';
 
 //get the user's events equal to today's date or later
 const userRef = doc(db, 'users/insertEmail---change');
@@ -33,12 +36,21 @@ type Props = {};
 
 const Home = (props: Props) => {
   const [eventArr, setEventArr] = useState<fetchEvent[] | null>(null);
+  const [isUserLoggedInBefore, setIsUserLoggedInBefore] = useState(false);
   const { user } = UserAuth();
+  const navigate = useNavigate();
+
   const fetchEventsData = async () => {
     if (!user) {
+      if (isUserLoggedInBefore) {
+        console.log('user should be redirected');
+        navigate('/');
+        return;
+      }
       console.log('User does not exist');
       return;
     }
+    setIsUserLoggedInBefore(true);
     console.log(user.uid);
     try {
       let response: axiosGetResponse<fetchEvent[]> = await axios.get(
@@ -72,8 +84,8 @@ const Home = (props: Props) => {
       {eventArr ? (
         <>
           <Typography variant='h2'>Registered Events</Typography>
-          {eventArr.map(event => (
-            <EventCard event={event} />
+          {eventArr.map((event, index) => (
+            <EventCard key={index} event={event} />
           ))}
         </>
       ) : (
@@ -87,7 +99,11 @@ const Home = (props: Props) => {
             style={{ height: '300px' }}
           />
 
-          <Button variant='outlined' size='large' sx={{ margin: '4rem 0' }}>
+          <Button
+            href='/find-event'
+            variant='outlined'
+            size='large'
+            sx={{ margin: '4rem 0' }}>
             Sign up for first Event
           </Button>
         </>
