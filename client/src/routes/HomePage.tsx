@@ -53,7 +53,7 @@ const HomePage = (props: Props) => {
           Movement.
         </Typography>
         <Typography variant='body1' color='white' py='1rem'>
-          Join the +10,000 of volunteers helping to clean our beautiful pages
+          Join the +10,000 of volunteers helping to clean our beautiful beaches
           one piece of garbage at a time
         </Typography>
         <Box>

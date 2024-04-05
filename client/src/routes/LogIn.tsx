@@ -20,7 +20,7 @@ function LogIn({}: Props) {
   };
   useEffect(() => {
     if (user != null) {
-      navigate('/homepage');
+      navigate('/home');
     }
   }, [user]);
 

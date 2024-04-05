@@ -7,7 +7,7 @@ function UserEventCardModal({ organizer, volunteers }: Props) {
   return (
     <>
       <Grid container>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <UserEventCard
             name={organizer.name}
             profilePic={organizer.profilePic}
@@ -17,7 +17,7 @@ function UserEventCardModal({ organizer, volunteers }: Props) {
         {volunteers.map((user, i) => {
           if (user.uuid !== organizer.uuid) {
             return (
-              <Grid item xs={3} key={i}>
+              <Grid item xs={4} key={i}>
                 <UserEventCard
                   name={user.name}
                   profilePic={user.profilePic}

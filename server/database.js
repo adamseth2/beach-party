@@ -9,6 +9,13 @@ const db = mysql
   })
   .promise();
 
+const locationKeys = [
+  'mainName',
+  'secondaryName',
+  'latitude',
+  'longitude',
+  'placeId',
+];
 export async function getLocation(id) {
   const locationQ =
     'Select mainName, secondaryName, latitude, longitude, placeId FROM location WHERE id = ?';
@@ -42,7 +49,22 @@ export async function getEvent(uuid) {
   delete currEvent.id;
   return currEvent;
 }
-
+export async function getUserEvents(uuid) {
+  const userId = await getUserId(uuid);
+  if (!userId) {
+    return null;
+  }
+  const locationJSONQ = JSONQuery(locationKeys);
+  const eventsQ = `
+  SELECT title, startDate, endDate, location, details, image, dateCreated, E.uuid, ${locationJSONQ} AS location
+  FROM Event E
+    INNER JOIN Location L ON E.location = L.id
+    INNER JOIN UserEventAttend UEA ON UEA.eventId = E.id
+  WHERE UEA.userId = ?
+  `;
+  const [rows] = await db.query(eventsQ, userId);
+  return rows;
+}
 async function getEventHelper(uuid) {
   let locationQ = getEventQuery(uuid);
   let events;
@@ -79,13 +101,6 @@ async function getEventHelper(uuid) {
   return event;
 }
 function getEventQuery(uuid) {
-  const locationKeys = [
-    'mainName',
-    'secondaryName',
-    'latitude',
-    'longitude',
-    'placeId',
-  ];
   const locationJSONQ = JSONQuery(locationKeys);
 
   if (uuid) {

@@ -9,6 +9,7 @@ import {
   getAllEvents,
   getEvent,
   getUser,
+  getUserEvents,
 } from './database.js';
 const app = express();
 
@@ -83,7 +84,16 @@ app.get('/events/:uuid', async (req, res) => {
     res.status(400).send(e);
   }
 });
-
+app.get('/events/user/:uuid', async (req, res) => {
+  try {
+    const uuid = req.params.uuid;
+    const event = await getUserEvents(uuid);
+    res.json(event);
+  } catch (e) {
+    console.log(e);
+    res.status(400).send(e);
+  }
+});
 app.post('/users', (req, res) => {
   try {
     const values = [req.body.name, req.body.profilePic, req.body.uuid];

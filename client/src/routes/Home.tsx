@@ -11,6 +11,13 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import EventCard from '../components/EventCard';
+import { axiosGetResponse, fetchEvent } from '../types';
+import axios from 'axios';
+import { getAuth } from 'firebase/auth';
+import { UserAuth } from '../context/AuthContext';
+import { title } from 'process';
+import { Button, Grid, Typography } from '@mui/material';
+import mapOfWorld from '../assets/map-design.svg';
 
 //get the user's events equal to today's date or later
 const userRef = doc(db, 'users/insertEmail---change');
@@ -25,31 +32,67 @@ const eventQuery = query(collection(db, 'events'), where('date', '>=', today));
 type Props = {};
 
 const Home = (props: Props) => {
-  const [data, setData] = useState<any>([]);
-  useEffect(() => {}, []);
-
-  const getEvents = async () => {
-    const snapshot = await getDocs(eventQuery);
-    const eventData = snapshot.docs.map(doc => doc.data());
-    setData(eventData);
+  const [eventArr, setEventArr] = useState<fetchEvent[] | null>(null);
+  const { user } = UserAuth();
+  const fetchEventsData = async () => {
+    if (!user) {
+      console.log('User does not exist');
+      return;
+    }
+    console.log(user.uid);
+    try {
+      let response: axiosGetResponse<fetchEvent[]> = await axios.get(
+        `http://localhost:8800/events/user/${user.uid}`
+      );
+      const eventData = response.data;
+      if (eventData?.length < 1) {
+        setEventArr(null);
+        return;
+      }
+      console.log(eventData);
+      setEventArr(eventData);
+    } catch (e) {
+      console.error(e);
+    }
   };
+  useEffect(() => {
+    fetchEventsData();
+  }, [user]);
+
+  // const snapshot = await getDocs(eventQuery);
+  // const eventData = snapshot.docs.map(doc => doc.data());
+  // setData(eventData);
   return (
-    <div className='upcomingEvents'>
-      {/* have to list out user's upcoming events
-      - use the map to render the event card objects
-      - have to figure out which events are upcoming for user
-          - get the list using a query
-          - convert to an array so can pass to a event card component
-      */}
-      <p>Hello!</p>
-      <EventCard
-        userImage='https://media.istockphoto.com/id/1442179368/photo/maldives-island.jpg?b=1&s=170667a&w=0&k=20&c=i8wK-BoIq_B365rf0oMRBNmuMc4U1zlTUllMuyr_QNw='
-        title='Beach fun!!'
-        description='join us for a day of fun on the beach.'
-        date='02/03/2023'
-        address='Coast Beach, Seattle, WA'
-      />
-    </div>
+    <Grid
+      container
+      columnSpacing={0}
+      direction='column'
+      alignItems='center'
+      justifyContent='center'>
+      {eventArr ? (
+        <>
+          <Typography variant='h2'>Registered Events</Typography>
+          {eventArr.map(event => (
+            <EventCard event={event} />
+          ))}
+        </>
+      ) : (
+        <>
+          <Typography variant='h4'>
+            Get started with your first Event
+          </Typography>
+          <img
+            src={mapOfWorld}
+            alt='map of the world'
+            style={{ height: '300px' }}
+          />
+
+          <Button variant='outlined' size='large' sx={{ margin: '4rem 0' }}>
+            Sign up for first Event
+          </Button>
+        </>
+      )}
+    </Grid>
   );
 };
 
