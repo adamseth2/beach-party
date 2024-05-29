@@ -76,7 +76,6 @@ function EventMap({ eventArr, focusedEvent, setFocusedEvent }: Props) {
     if (!marker && !markers[key]) {
       return;
     }
-
     setMarkers(prev => {
       if (marker) {
         return { ...prev, [key]: marker };

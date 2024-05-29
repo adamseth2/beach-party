@@ -40,6 +40,7 @@ function EventMarker({
   };
   const isSelected = focusedEvent == index;
   const imgSrc = isSelected ? selectedEventIcon : eventIcon;
+  console.log(data);
   //@ts-ignore
   // markerRef.current?.addListener('click', () => {
   //   console.log(`index ${index} was clicked`);
@@ -70,12 +71,7 @@ function EventMarker({
           setCounter(curr => curr + 1);
           console.log(counter);
         }}>
-        {/* <Card>
-          {'Test Test Things '}
-          {counter} */}
-
         <img src={imgSrc} alt='' style={{ width: '60px', height: '60px' }} />
-        {/* </Card> */}
 
         {/* <img
           src={
@@ -99,19 +95,6 @@ function EventMarker({
         />
       )} */}
     </>
-
-    // {isClicked ?
-    //   <MarkerF
-    //   key={data.uuid}
-    //   position={position}
-    //   icon={selectedTrashBag}
-    //   />
-    // : (
-    //   <img
-    //     src="https://img.icons8.com/ios-filled/40/null/trash-pile.png'"
-    //     alt=''
-    //   />
-    // )}
   );
 }
 
