@@ -63,6 +63,7 @@ export async function getUserEvents(uuid) {
   WHERE UEA.userId = ?
   `;
   const [rows] = await db.query(eventsQ, userId);
+  console.log(rows);
   return rows;
 }
 async function getEventHelper(uuid) {
