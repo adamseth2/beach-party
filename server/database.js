@@ -27,6 +27,11 @@ export async function getLocation(id) {
 export async function getAllEvents() {
   const eventArr = await getEventHelper();
   console.log(eventArr);
+  const [test] = await db.query('SHOW DATABASES');
+  const [test2] = await db.query('SHOW TABLES');
+  console.log(test);
+  console.log(test2);
+  return test;
   await Promise.all(
     eventArr.map(async curr => {
       console.log(curr.id);
@@ -107,13 +112,13 @@ function getEventQuery(uuid) {
   if (uuid) {
     return `SELECT Event.id, title, startDate, endDate, location, details, image, dateCreated, ${locationJSONQ} AS location
     FROM Event
-    INNER JOIN Location ON Event.location = location.id
+    INNER JOIN Location ON Event.location = Location.id
     WHERE uuid = ?`;
   }
   // also returns Event.uuid
   return `SELECT Event.id, Event.uuid, title, startDate, endDate, location, details, image, dateCreated, ${locationJSONQ} AS location
   FROM Event
-  INNER JOIN Location ON Event.location = location.id`;
+  INNER JOIN Location ON Event.location = Location.id`;
 }
 async function getVolunteers(eventId) {
   const volunteersQ = `SELECT name, profilePic, u.uuid, role
@@ -162,7 +167,7 @@ export async function addUser(values) {
   await db.query(q, [values]);
 }
 export async function getUser(uuid) {
-  const q = `SELECT name, profilePic, uuid FROM user WHERE uuid = ?`;
+  const q = `SELECT name, profilePic, uuid FROM User WHERE uuid = ?`;
   const [user] = await db.query(q, uuid);
   return user[0];
 }
@@ -179,7 +184,7 @@ export async function getUserEventId(userUuid, eventUuid) {
   FROM User 
   WHERE uuid = ?
   UNION
-  SELECT id AS eventId FROM event WHERE uuid =?`;
+  SELECT id AS eventId FROM Event WHERE uuid =?`;
   const [rows] = await db.query(q, values);
   return rows;
 }
