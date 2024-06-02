@@ -27,11 +27,6 @@ export async function getLocation(id) {
 export async function getAllEvents() {
   const eventArr = await getEventHelper();
   console.log(eventArr);
-  const [test] = await db.query('SHOW DATABASES');
-  const [test2] = await db.query('SHOW TABLES');
-  console.log(test);
-  console.log(test2);
-  return test;
   await Promise.all(
     eventArr.map(async curr => {
       console.log(curr.id);
