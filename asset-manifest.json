@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/beach-party/static/css/main.c429c9a8.css",
+    "main.js": "/beach-party/static/js/main.9ed52f05.js",
+    "static/js/787.3f09311e.chunk.js": "/beach-party/static/js/787.3f09311e.chunk.js",
+    "static/media/beach-party-logo.svg": "/beach-party/static/media/beach-party-logo.d0b08d05324cff80ac319fe5adf775f4.svg",
+    "static/media/heropage1.jpg": "/beach-party/static/media/heropage1.4a0b9f363aa83814b14d.jpg",
+    "static/media/map-design.svg": "/beach-party/static/media/map-design.5997252aab18a5d1dd59e6cf8ff7f31c.svg",
+    "static/media/selectedEventIcon.svg": "/beach-party/static/media/selectedEventIcon.96f1a28e246f9b14230035d88e7ac773.svg",
+    "static/media/eventIcon.svg": "/beach-party/static/media/eventIcon.787f55f80105ea36fb8ed80a8128d8f3.svg",
+    "index.html": "/beach-party/index.html",
+    "main.c429c9a8.css.map": "/beach-party/static/css/main.c429c9a8.css.map",
+    "main.9ed52f05.js.map": "/beach-party/static/js/main.9ed52f05.js.map",
+    "787.3f09311e.chunk.js.map": "/beach-party/static/js/787.3f09311e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c429c9a8.css",
+    "static/js/main.9ed52f05.js"
+  ]
+}
