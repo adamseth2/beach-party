@@ -2,6 +2,7 @@ import express from 'express';
 import mysql from 'mysql2';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import https from 'https';
 import {
   addUserToEventUuid,
   addEvent,
@@ -12,6 +13,13 @@ import {
   getUserEvents,
 } from './database.js';
 const app = express();
+
+const key = fs.readFileSync('~/selfsigned.key');
+const cert = fs.readFileSync('~/selfsigned.crt');
+const options = {
+  key: key,
+  cert: cert,
+};
 
 // const db = mysql.createConnection({
 //   host: 'localhost',
@@ -138,6 +146,11 @@ app.post('/event/rsvp', async (req, res) => {
     res.status(400).send(e);
   }
 });
-app.listen(8800, () => {
+
+const server = https.createServer(options, app);
+server.listen(8800, () => {
   console.log('Connected to backend');
 });
+// app.listen(8800, () => {
+//   console.log('Connected to backend');
+// });
