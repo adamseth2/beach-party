@@ -15,8 +15,8 @@ import {
 } from './database.js';
 const app = express();
 
-const key = fs.readFileSync('~/selfsigned.key');
-const cert = fs.readFileSync('~/selfsigned.crt');
+const key = fs.readFileSync('../../selfsigned.key');
+const cert = fs.readFileSync('../../selfsigned.crt');
 const options = {
   key: key,
   cert: cert,
