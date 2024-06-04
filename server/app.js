@@ -3,6 +3,7 @@ import mysql from 'mysql2';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import https from 'https';
+import fs from 'fs';
 import {
   addUserToEventUuid,
   addEvent,
