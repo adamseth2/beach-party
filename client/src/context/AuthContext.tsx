@@ -17,7 +17,7 @@ export const AuthContextProvider = ({ children }: any) => {
   const createNewUser = async (userData: user) => {
     try {
       console.log('GOT POSTED??');
-      await axios.post('http://localhost:8800/users', userData);
+      await axios.post(`${process.env.REACT_APP_REST_API}/users`, userData);
       console.log('GOT POSTED');
     } catch (err) {
       console.log(err);

@@ -1,18 +1,31 @@
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import heroImage from '../assets/heropage1.jpg';
 import { event } from '../types';
 import { useFeedback } from '../context/FeedbackContext';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserAuth } from '../context/AuthContext';
 // import from ''
 
 type Props = {};
 
 const HomePage = (props: Props) => {
   const { setStatus, setStatusMessage } = useFeedback();
+  const { user } = UserAuth();
+  const navigate = useNavigate();
   const organizeCleanUpHandler = () => {
     setStatus('info');
     setStatusMessage('Please log in first');
   };
+  useEffect(() => {
+    if (user) {
+      console.log('user should be redirected');
+      navigate('/home');
+      return;
+      // }
+    }
+  }, [user]);
+
   return (
     <Box
       sx={{
@@ -58,9 +71,11 @@ const HomePage = (props: Props) => {
         </Typography>
         <Box>
           <Stack direction='row' spacing={2}>
-            <Button href='/log-in' color='primary' variant='contained'>
-              Sign Up
-            </Button>
+            <Link to='/find-event/'>
+              <Button color='primary' variant='contained'>
+                Sign Up
+              </Button>
+            </Link>
             <Button
               color='secondary'
               variant='outlined'

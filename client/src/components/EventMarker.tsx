@@ -38,9 +38,10 @@ function EventMarker({
     lat: data.location.latitude,
     lng: data.location.longitude,
   };
-  const isSelected = focusedEvent == index;
+  const isSelected = focusedEvent === index;
   const imgSrc = isSelected ? selectedEventIcon : eventIcon;
   console.log(data);
+  console.log(focusedEvent);
   //@ts-ignore
   // markerRef.current?.addListener('click', () => {
   //   console.log(`index ${index} was clicked`);

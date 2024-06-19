@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  createHashRouter,
+  Outlet,
+  RouterProvider,
+} from 'react-router-dom';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -77,38 +82,48 @@ const theme = createTheme({
     accent: '#FF5964',
   },
 });
-
-const router = createBrowserRouter([
-  {
-    element: <Navbar />,
-  },
+function NavbarWrapper() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  );
+}
+const router = createHashRouter([
   {
     path: '/',
-    element: <HomePage />,
-  },
-  {
-    path: '/home',
-    element: <Home />,
-  },
-  {
-    path: '/find-event',
-    element: <FindEvent />,
-  },
-  {
-    path: '/event/:eventUuid',
-    element: <EventPage />,
-  },
-  {
-    path: '/log-in',
-    element: <LogIn />,
-  },
-  {
-    path: '/create-event',
-    element: <CreateEvent />,
-  },
-  {
-    path: '/profile/:profileId',
-    element: <div>Profile</div>,
+    element: <NavbarWrapper />,
+    children: [
+      {
+        path: '/',
+        element: <HomePage />,
+      },
+      {
+        path: '/home/',
+        element: <Home />,
+      },
+      {
+        path: '/find-event/',
+        element: <FindEvent />,
+      },
+      {
+        path: '/event/:eventUuid/',
+        element: <EventPage />,
+      },
+      {
+        path: '/log-in/',
+        element: <LogIn />,
+      },
+      {
+        path: '/create-event/',
+        element: <CreateEvent />,
+      },
+      {
+        path: '/profile/:profileId/',
+        element: <div>Profile</div>,
+      },
+    ],
   },
 ]);
 
@@ -120,13 +135,11 @@ function App() {
       <AuthContextProvider>
         <FeedBackContextProvider>
           <ThemeProvider theme={theme}>
-            <Navbar />
+            {/* <Navbar /> */}
             <StatusPopUp />
             {/* @ts-ignore */}
             <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
-              <div>
-                <RouterProvider router={router} />
-              </div>
+              <RouterProvider router={router} />
             </APIProvider>
           </ThemeProvider>
         </FeedBackContextProvider>

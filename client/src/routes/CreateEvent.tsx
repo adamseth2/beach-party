@@ -31,21 +31,29 @@ import { getGeocode, getLatLng } from 'use-places-autocomplete';
 // import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { formatLocation } from '../helperMethods';
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
+import { useNavigate } from 'react-router';
+import { useFeedback } from '../context/FeedbackContext';
 type Props = {};
 
 type formInput = event & {
   imageFile: File | null;
+  startHour: number;
+  endHour: number;
+  termsOfServiceAgreement: boolean;
 };
 type formLocation = Omit<GMLocation, 'placeId' | 'longitude' | 'latitude'>;
 const INITIAL_DATA: formInput = {
   title: '',
   startDate: 0,
+  startHour: 0,
   endDate: 0,
+  endHour: 0,
   details: '',
   imageFile: null,
   image: '',
   dateCreated: 0,
   uuid: '',
+  termsOfServiceAgreement: false,
 };
 const timeOptions = [
   '30 mins',
@@ -59,7 +67,20 @@ const timeOptions = [
   '4 hour 30 mins',
   '5 hour',
 ];
-
+const isFormDataValid = (data: formInput, location: formLocation | null) => {
+  return (
+    data.title &&
+    data.startDate &&
+    data.startHour &&
+    data.endDate &&
+    data.endHour &&
+    data.details &&
+    data.imageFile &&
+    data.termsOfServiceAgreement &&
+    location?.mainName &&
+    location?.secondaryName
+  );
+};
 export const CreateEvent = (props: Props) => {
   //loads GoogleMap Places library
   const placesLib = useMapsLibrary('places');
@@ -68,7 +89,8 @@ export const CreateEvent = (props: Props) => {
   const { uploadImage } = useStorage();
   const { user } = UserAuth();
   const isLibLoaded = useRef(false);
-
+  const navigate = useNavigate();
+  const { setStatusMessage, setStatus, setIsLoading } = useFeedback();
   useEffect(() => {
     if (!placesLib) {
       return;
@@ -100,15 +122,30 @@ export const CreateEvent = (props: Props) => {
   };
   const submitHandler: React.MouseEventHandler<HTMLButtonElement> = async e => {
     e.preventDefault();
+    console.log(formInfo);
+    if (!isFormDataValid(formInfo, location)) {
+      setStatusMessage('Form Invalid');
+      setStatus('error');
+      return;
+    }
+    console.log('GOING TO WORK');
     const uuid = uuidv4().substring(0, 13);
-    const url = await uploadImage(uuid, formInfo.imageFile);
+    let url;
+    try {
+      url = await uploadImage(uuid, formInfo.imageFile);
+    } catch (e) {
+      setStatusMessage('Error with uploading image');
+      setStatus('error');
+      return;
+    }
     console.log('URL IS ' + url);
-    const eventData: any = formInfo;
+    const eventData: any = structuredClone(formInfo);
     const userUUID = user.uid;
     eventData.organizer = userUUID;
     delete eventData.startHour;
     delete eventData.endHour;
     delete eventData.imageFile;
+    delete eventData.termOfService;
     // DELETE LATER
     if (!url) {
       console.log('url IS NULL');
@@ -119,7 +156,14 @@ export const CreateEvent = (props: Props) => {
       return;
     }
     //gets geocatching TO DO???
-    const results = await getGeocode({ address: formatLocation(location) });
+    let results;
+    try {
+      results = await getGeocode({ address: formatLocation(location) });
+    } catch (e) {
+      setStatusMessage("Error occurred with Google Maps' Geocode");
+      setStatus('error');
+      return;
+    }
     console.log(results);
     const { place_id, types } = results[0];
     const { lat, lng } = await getLatLng(results[0]);
@@ -132,19 +176,27 @@ export const CreateEvent = (props: Props) => {
       placeId: place_id,
     };
     console.log('locationData', locationData);
-    formInfo.image = url;
-    formInfo.dateCreated = Date.now();
-    formInfo.uuid = uuid;
+    eventData.image = url;
+    eventData.dateCreated = Date.now();
+    eventData.uuid = uuid;
 
     console.log(eventData);
     const postData = { locationData, eventData };
     try {
+      setIsLoading(true);
       console.log('GOT POSTED??');
-
-      console.log(await axios.post('http://localhost:8800/events', postData));
+      console.log(
+        await axios.post(`${process.env.REACT_APP_REST_API}/events`, postData)
+      );
       console.log('GOT POSTED');
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate(`/event/${uuid}`);
+      }, 1000);
     } catch (err) {
       console.log(err);
+      setStatusMessage('An error occurred. Please try submitting again ');
+      setStatus('error');
     }
   };
   return (
@@ -285,11 +337,15 @@ export const CreateEvent = (props: Props) => {
             <Grid item xs={12}>
               <FormGroup>
                 <FormControlLabel
-                  control={<Checkbox />}
+                  control={
+                    <Checkbox
+                      id='termsOfServiceAgreement'
+                      onChange={e => formHandler(e.target.id, e.target.checked)}
+                    />
+                  }
                   label={
                     <Typography>
-                      I have read and agree to the{' '}
-                      <Link href='#'>terms of service</Link>
+                      I have read and agree to the <Link>terms of service</Link>
                     </Typography>
                   }
                 />

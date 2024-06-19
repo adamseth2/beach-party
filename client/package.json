@@ -2,6 +2,7 @@
   "name": "ocean-beach-clean-up",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://adamseth2.github.io/beach-party/",
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
@@ -22,6 +23,7 @@
     "axios": "^1.6.2",
     "dayjs": "^1.11.7",
     "firebase": "^9.21.0",
+    "gh-pages": "^6.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-button": "^0.7.2",
@@ -34,6 +36,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

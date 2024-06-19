@@ -15,7 +15,7 @@ const useFetchEvents = () => {
     async function fetchEventData() {
       try {
         let response: axiosGetResponse<fetchEvent[]> = await axios.get(
-          `http://localhost:8800/events`
+          `${process.env.REACT_APP_REST_API}/events`
         );
         const eventData = response.data;
         console.log(eventData);

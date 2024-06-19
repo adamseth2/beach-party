@@ -33,6 +33,7 @@ import useFetchEvents from '../hooks/useFetchEvents';
 import { APIProvider, useApiIsLoaded } from '@vis.gl/react-google-maps';
 import { convertUnixFormatTime } from '../helperMethods';
 import { AccessTimeOutlined, LocationOnOutlined } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 // type Props = {};
 
 const minDrawerWidth = 280;
@@ -48,25 +49,27 @@ interface Props {
 export default function FindEvent(props: Props) {
   // const { window } = props;
   // const [mobileOpen, setMobileOpen] = React.useState(false);
-
   const apiIsLoaded = useApiIsLoaded();
   const { eventArr, organizerArr } = useFetchEvents();
   const [focusedEvent, setFocusedEvent] = useState<number | null>(null);
-
+  // if (eventArr && focusedEvent) {
+  //   console.log('focusedEvent:', eventArr[focusedEvent]);
+  // }
   // useEffect(() => {
-  //   console.log('In use Event useEffect:');
-  //   console.log(eventArr);
-  // }, [eventArr]);
+  //   console.log(focusedEvent);
+  //   //@ts-ignore
+  //   // console.log('focusedEvent:', eventArr[focusedEvent]);
+  // }, [focusedEvent]);
 
   //have to double check because typescript throwing errors; however should always be true
   const drawerContent =
-    eventArr && focusedEvent ? (
+    eventArr && focusedEvent !== null ? (
       <>
         <Toolbar /> {/*Purpose is to add space*/}
         <img
           src={eventArr[focusedEvent].image}
           style={{
-            width: '100%',
+            height: '300px',
           }}
         />
         <Box
@@ -113,18 +116,16 @@ export default function FindEvent(props: Props) {
             </Typography>
           </List>
         </Box>
-        <Button
-          href={`/event/${eventArr[focusedEvent].uuid}`}
-          variant='contained'>
-          More information
-        </Button>
+        <Link to={`/event/${eventArr[focusedEvent].uuid}`}>
+          <Button variant='contained'>More information</Button>
+        </Link>
       </>
     ) : (
       <></>
     );
   return (
     <>
-      {eventArr && focusedEvent && (
+      {eventArr && focusedEvent !== null && (
         //First is desktop view, second is mobile view
         <>
           <Drawer

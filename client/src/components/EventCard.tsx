@@ -15,6 +15,7 @@ import {
 import { AccessTimeOutlined, LocationOnOutlined } from '@mui/icons-material';
 import { convertUnixFormatTime } from '../helperMethods';
 import { fetchEvent } from '../types';
+import { Link } from 'react-router-dom';
 
 type Props = {
   event: fetchEvent;
@@ -22,6 +23,7 @@ type Props = {
 
 const EventCard = ({ event }: Props) => {
   const { title, startDate, endDate, details, image, location, uuid } = event;
+  console.log(event);
   return (
     <Card
       sx={{
@@ -39,7 +41,7 @@ const EventCard = ({ event }: Props) => {
           height: 200,
         }}
         image={image}
-        title='green iguana'
+        title='Hello'
       />
       <CardContent>
         <Typography gutterBottom variant='h5' component='div'>
@@ -82,9 +84,9 @@ const EventCard = ({ event }: Props) => {
         </List>
       </CardContent>
       <CardActions>
-        <Button size='small' href={`/event/${uuid}`}>
-          More information
-        </Button>
+        <Link to={`/event/${uuid}`}>
+          <Button size='small'>More information</Button>
+        </Link>
       </CardActions>
     </Card>
   );

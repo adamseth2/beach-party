@@ -53,61 +53,65 @@ const Navbar: React.FC = () => {
           height: '4rem',
         }}>
         <Toolbar>
-          <Button
-            href={user ? '/home' : '/'}
-            color='inherit'
-            sx={{ minHeight: 0, minWidth: 0, padding: 0 }}>
-            {/* <img src={beachPartyLogo} alt='' /> */}
-            <Box
-              component='img'
-              sx={{
-                height: 60,
-                // width: 200,
-              }}
-              alt='Beach Party Logo'
-              src={beachPartyLogo}
-            />
-            {/* <BeachAccessIcon fontSize='large' /> */}
-            {/* <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+          <Link to={user ? '/home' : '/'}>
+            <Button
+              color='inherit'
+              sx={{ minHeight: 0, minWidth: 0, padding: 0 }}>
+              {/* <img src={beachPartyLogo} alt='' /> */}
+              <Box
+                component='img'
+                sx={{
+                  height: 60,
+                  // width: 200,
+                }}
+                alt='Beach Party Logo'
+                src={beachPartyLogo}
+              />
+              {/* <BeachAccessIcon fontSize='large' /> */}
+              {/* <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
               Beach Party
             </Typography> */}
-          </Button>
+            </Button>
+          </Link>
           <Box
             sx={{
               flexGrow: 1,
               display: 'flex',
               gap: '1rem',
             }}>
-            <Button
-              href='/find-event'
-              variant='contained'
-              color='secondary'
-              sx={{ my: 2 }}
-              endIcon={<TravelExplore />}>
-              <Box
-                sx={{
-                  display: { xs: 'none', sm: 'block' },
-                  maxHeight: '150px',
-                }}>
-                Find Event
-              </Box>
-              {/* <Typography variant='body2'>Find Event</Typography> */}
-            </Button>
-            {user && (
+            <Link to='/find-event '>
               <Button
-                href='/create-event'
                 variant='contained'
                 color='secondary'
                 sx={{ my: 2 }}
-                endIcon={<AddLocationAltIcon />}>
+                endIcon={<TravelExplore />}>
                 <Box
                   sx={{
-                    maxHeight: '150px',
                     display: { xs: 'none', sm: 'block' },
+                    maxHeight: '150px',
                   }}>
-                  Create Event
+                  Find Event
                 </Box>
+                {/* <Typography variant='body2'>Find Event</Typography> */}
               </Button>
+            </Link>
+
+            {user && (
+              <Link to='/create-event '>
+                <Button
+                  variant='contained'
+                  color='secondary'
+                  sx={{ my: 2 }}
+                  endIcon={<AddLocationAltIcon />}>
+                  <Box
+                    sx={{
+                      maxHeight: '150px',
+                      display: { xs: 'none', sm: 'block' },
+                    }}>
+                    Create Event
+                  </Box>
+                </Button>
+              </Link>
             )}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
@@ -146,9 +150,11 @@ const Navbar: React.FC = () => {
                 </Menu>
               </>
             ) : (
-              <Button href='/log-in' variant='contained' color='secondary'>
-                Log In
-              </Button>
+              <Link to='/log-in'>
+                <Button variant='contained' color='secondary'>
+                  Log In
+                </Button>
+              </Link>
             )}
           </Box>
         </Toolbar>

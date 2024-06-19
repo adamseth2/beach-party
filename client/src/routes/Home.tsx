@@ -18,7 +18,7 @@ import { UserAuth } from '../context/AuthContext';
 import { title } from 'process';
 import { Button, Grid, Typography } from '@mui/material';
 import mapOfWorld from '../assets/map-design.svg';
-import { redirect } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import { red } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
 
@@ -54,7 +54,7 @@ const Home = (props: Props) => {
     console.log(user.uid);
     try {
       let response: axiosGetResponse<fetchEvent[]> = await axios.get(
-        `http://localhost:8800/events/user/${user.uid}`
+        `${process.env.REACT_APP_REST_API}/events/user/${user.uid}`
       );
       const eventData = response.data;
       if (eventData?.length < 1) {
@@ -98,14 +98,11 @@ const Home = (props: Props) => {
             alt='map of the world'
             style={{ height: '300px' }}
           />
-
-          <Button
-            href='/find-event'
-            variant='outlined'
-            size='large'
-            sx={{ margin: '4rem 0' }}>
-            Sign up for first Event
-          </Button>
+          <Link to='/find-event'>
+            <Button variant='outlined' size='large' sx={{ margin: '4rem 0' }}>
+              Sign up for first Event
+            </Button>
+          </Link>
         </>
       )}
     </Grid>

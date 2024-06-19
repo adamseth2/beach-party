@@ -55,7 +55,10 @@ function EventRSVPModal({ title, startDate, endDate, location }: props) {
         role: 'Volunteer',
       };
       console.log('postData', postData);
-      await axios.post('http://localhost:8800/event/rsvp', postData);
+      await axios.post(
+        `${process.env.REACT_APP_REST_API}/event/rsvp`,
+        postData
+      );
       console.log('GOT POSTED');
     } catch (err: any) {
       const axiosErr = err.response as axiosError;
